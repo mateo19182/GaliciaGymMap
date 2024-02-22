@@ -1,0 +1,370 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.651627, 42.89003] },
+      "properties": { "name": "Ames" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-3.02094, 43.06935] },
+      "properties": { "name": "Arza" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.005949, 43.221887] },
+      "properties": { "name": "Laxe" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.286039, 42.84829] },
+      "properties": { "name": "Touro" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.890987, 42.682302] },
+      "properties": { "name": "Boiro" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.407816, 43.076756] },
+      "properties": { "name": "Ordes" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.500338, 43.309653] },
+      "properties": { "name": "Arteixo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.034068, 43.095769] },
+      "properties": { "name": "Vimianzo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.09411, 42.189428] },
+      "properties": { "name": "Sobrado" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.015155, 43.561884] },
+      "properties": { "name": "Moeche" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-7.952279, 43.607515] },
+      "properties": { "name": "Cerdido" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.263789, 42.906477] },
+      "properties": { "name": "Fisterra" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.720192, 42.788576] },
+      "properties": { "name": "Rois" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.5414, 43.004333] },
+      "properties": { "name": "Trazo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-4.829629, 43.306211] },
+      "properties": { "name": "Cario" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-3.672609, 42.350256] },
+      "properties": { "name": "Man" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.123481, 43.350988] },
+      "properties": { "name": "Vilarmaior" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.162561, 43.473674] },
+      "properties": { "name": "Fene" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.246321, 43.311755] },
+      "properties": { "name": "Bergondo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.159876, 43.299316] },
+      "properties": { "name": "Paderne" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.887738, 42.785076] },
+      "properties": { "name": "Noia" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.329437, 43.350714] },
+      "properties": { "name": "Oleiros" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-3.682839, 42.817078] },
+      "properties": { "name": "Mesa" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.00849, 42.920121] },
+      "properties": { "name": "Mazaricos" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-7.951067, 42.098939] },
+      "properties": { "name": "Carballo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.044686, 43.132817] },
+      "properties": { "name": "Curtis" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.292773, 43.035239] },
+      "properties": { "name": "Frades" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.208798, 43.175182] },
+      "properties": { "name": "Cesuras" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.160924, 43.418689] },
+      "properties": { "name": "Cabanas" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.057535, 42.774411] },
+      "properties": { "name": "Muros" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.067199, 43.287704] },
+      "properties": { "name": "Irixoa" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.158247, 43.500278] },
+      "properties": { "name": "Neda" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.244039, 43.42633] },
+      "properties": { "name": "Ares" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.087803, 42.821959] },
+      "properties": { "name": "Carnota" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.463016, 42.771919] },
+      "properties": { "name": "Vedra" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.257125, 43.461824] },
+      "properties": { "name": "Mugardos" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.879682, 43.264784] },
+      "properties": { "name": "Ponteceso" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.485223, 43.161729] },
+      "properties": { "name": "Cerceda" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.013685, 42.580563] },
+      "properties": { "name": "Ribeira" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.567119, 42.80158] },
+      "properties": { "name": "Teo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.832957, 42.773361] },
+      "properties": { "name": "Lousame" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.651627, 43.010154] },
+      "properties": { "name": "Val do Dubra" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.389459, 43.288482] },
+      "properties": { "name": "Culleredo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-1.398306, 42.587178] },
+      "properties": { "name": "Sada" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.290324, 43.210443] },
+      "properties": { "name": "Abegondo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.171882, 43.407258] },
+      "properties": { "name": "Pontedeume" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.221823, 43.27292] },
+      "properties": { "name": "Betanzos" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.913593, 43.099246] },
+      "properties": { "name": "Zas" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.786275, 42.683478] },
+      "properties": { "name": "Rianxo" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.517517, 42.905731] },
+      "properties": { "name": "Santiago de Compostel" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.547134, 43.087173] },
+      "properties": { "name": "Tordoia" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.825468, 42.908132] },
+      "properties": { "name": "Negreira" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.361439, 43.220646] },
+      "properties": { "name": "Carral" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.055298, 43.33433] },
+      "properties": { "name": "Monfero" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.704278, 42.715674] },
+      "properties": { "name": "Dodro" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.928388, 42.850323] },
+      "properties": { "name": "Outes" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.054699, 43.660239] },
+      "properties": { "name": "Cedeira" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.016061, 43.234059] },
+      "properties": { "name": "Aranga" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.763906, 43.157062] },
+      "properties": { "name": "Coristanco" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.153767, 43.002542] },
+      "properties": { "name": "Boimorto" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.004912, 42.726023] },
+      "properties": { "name": "Porto do Son" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-1.344412, 40.77472] },
+      "properties": { "name": "Brin" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [2.674052, 39.585464] },
+      "properties": { "name": "Mio" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-9.190001, 42.955556] },
+      "properties": { "name": "Cee" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.023943, 42.931742] },
+      "properties": { "name": "Melide" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.384974, 42.986801] },
+      "properties": { "name": "Oroso" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.069259, 42.867593] },
+      "properties": { "name": "Santiso" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-7.972962, 42.967598] },
+      "properties": { "name": "Toques" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.233162, 43.484686] },
+      "properties": { "name": "Ferrol" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.095942, 43.076121] },
+      "properties": { "name": "Vilasantar" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-7.854368, 43.684314] },
+      "properties": { "name": "Ortigueira" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-7.529497, 43.051088] },
+      "properties": { "name": "Muxa" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-8.329713, 43.280375] },
+      "properties": { "name": "Cambre" }
+    }
+  ]
+}

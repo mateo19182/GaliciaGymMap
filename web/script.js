@@ -1,45 +1,45 @@
 // script.js
 
-// Initialize the map
-var map = L.map('map').setView([42.5751, -7.6498], 8); // Set the initial coordinates and zoom level
+var map = L.map("map").setView([42.5751, -7.6498], 8); // Set the initial coordinates and zoom level
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; OpenStreetMap contributors",
+}).addTo(map);
 
-// Add a tile layer with OpenStreetMap data
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+var geojsonFiles = [
+  "http://127.0.0.1:5500/coruna.geojson",
+  "http://127.0.0.1:5500/lugo.geojson",
+  "http://127.0.0.1:5500/ourense.geojson",
+  "http://127.0.0.1:5500/pontevedra.geojson"
+];
+var markersGroup = L.layerGroup().addTo(map);
+var geoJSONLayers = {};
 
-// Create an object to store province layers
-var provinceLayers = {};
+function createGeoJSONLayer(data, name, markerColor) {
+    fetch(data)
+    .then(response => response.json())
+    .then(geojson => {
+        const geoJSONLayer = L.geoJSON(geojson, {
+            pointToLayer: function (feature, latlng) {
+                const marker = L.marker(latlng, { color: markerColor });
+                const featureName = feature.properties.name; // Get the name from feature properties
+                console.log(featureName);
+                marker.bindPopup(featureName); // Bind popup with the correct name
+                return marker;
+            }
+        });
 
-// Function to add markers for a specific province
-function addMarkersForProvince(province, markerData) {
-    var markers = [];
-
-    // Create markers for each location in the province
-    markerData.forEach(function (location) {
-        var marker = L.marker([location.latitude, location.longitude]).bindPopup(location.name);
-        markers.push(marker);
-    });
-
-    // Create a layer group for the province and add markers to it
-    provinceLayers[province] = L.layerGroup(markers);
+        const layerControl = L.control.layers(null, null, { collapsed: false });
+        geoJSONLayer.addTo(map);
+        layerControl.addOverlay(geoJSONLayer, name);
+        layerControl.addTo(map);
+    })
+    .catch(error => console.error('Error fetching GeoJSON:', error));
 }
 
-// Example data for provinces and markers
-var provinceData = {
-    'A Coruña': [
-        { name: 'Coruña Location 1', latitude: 43.3623, longitude: -8.4115 },
-        // Add more locations as needed
-    ],
-    'Lugo': [
-        { name: 'Lugo Location 1', latitude: 43.0129, longitude: -7.5559 },
-        // Add more locations as needed
-    ],
-    // Add more provinces with respective locations
-};
 
-// Loop through province data and add markers and layers
-for (var province in provinceData) {
-    addMarkersForProvince(province, provinceData[province]);
-}
 
-// Add a layer control to toggle province visibility
-L.control.layers(null, provinceLayers).addTo(map);
+geojsonFiles.forEach((file, index) => {
+    var colors = ["red", "blue", "green", "orange"];
+    var layers = ["Coruña", "Lugo", "Ourense", "Pontevedra"];
+    createGeoJSONLayer(file, layers[index], colors[index]);
+});
