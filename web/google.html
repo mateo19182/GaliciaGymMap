@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Google Map in Galicia</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <script 
+    async src="https://maps.googleapis.com/maps/api/js?key=##########&loading=async&libraries=places&callback=initMap">
+    </script>
+    <script>
+        var map;
+        function initMap() {
+            var galiciaCoordinates = { lat: 42.8782, lng: -8.5448 };
+    
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: galiciaCoordinates,
+                zoom: 8 // You can adjust the zoom level as needed
+            });
+    
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: galiciaCoordinates,
+                radius: 1000,
+                type: ['gym']
+            },  (results, status, pagination) => {
+                    if (status !== "OK" || !results) return;
+                    results.forEach(place => {
+                        createMarker(place);
+                    });
+                    if (pagination && pagination.hasNextPage) {
+                        pagination.nextPage();
+                    }
+            });
+        }
+    
+        function createMarker(place) {
+            var placeLoc = place.geometry.location;
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                showInfoWindow(place, marker);
+            });
+        }
+
+        function showInfoWindow(place, marker) {
+            var infoWindow = new google.maps.InfoWindow();
+            var content = '<strong>' + place.name + '</strong><br>' +
+                'Address: ' + place.vicinity;
+            infoWindow.setContent(content);
+            infoWindow.open(map, marker);
+        }
+    </script>
+    <div id="map"></div>
+</body>
+</html>
+
