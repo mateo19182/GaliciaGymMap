@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>CSV Filter</title>
+    <!-- Load Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Set the height of the map */
+        #map { height: 400px; }
+    </style>
 </head>
 <body>
     <label for="categoryFilter">Category:</label>
@@ -19,9 +25,22 @@
         <!-- Types will be populated based on category selection -->
     </select>
 
+    <!-- Map container -->
+    <div id="map"></div>
+
     <div id="dataDisplay"></div>
 
+    <!-- Load Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        // Initialize the map
+        var map = L.map('map').setView([42.5751, -7.8379], 7); // Adjust zoom level as needed
+
+        // Load and display a tile layer on the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
         // Function to filter data by category or type
         function filterData(filterType) {
             const category = document.getElementById('categoryFilter').value;
@@ -37,10 +56,10 @@
                 .then(data => {
                     // Populate types if category filter is changed and data is returned
                     if (filterType === 'category' && data.length > 0) {
-                        const types = [...new Set(data.map(item => item.type))]; // Extract unique types
+                        const types = [...new Set(data.map(item => item.type))];
                         const typeSelect = document.getElementById('typeFilter');
                         types.forEach(type => {
-                            if (type) { // Avoid adding empty types
+                            if (type) {
                                 const option = document.createElement('option');
                                 option.value = option.text = type;
                                 typeSelect.add(option);
@@ -48,10 +67,45 @@
                         });
                     }
 
-                    // Display filtered data
+                    // Display filtered data and update map markers
                     const display = document.getElementById('dataDisplay');
                     if (data.length > 0) {
                         display.innerHTML = '<ul>' + data.map(item => `<li><a href="${item.location_link}" target="_blank">${item.location_link}</a> - ${item.category} - ${item.type}</li>`).join('') + '</ul>';
+
+                        // Clear existing markers
+                        map.eachLayer(function(layer){
+                            if (!!layer.toGeoJSON) {
+                                map.removeLayer(layer);
+                            }
+                        });
+
+                        data.forEach(item => {
+                            if(item.latitude && item.longitude) {
+                                // Create a popup content string with all item information
+                                let popupContent = `<b>Category:</b> ${item.category}<br><b>Type:</b> ${item.type}`;
+                                // Add additional item information here
+                                // For example, assuming 'name', 'description', and 'address' fields exist
+                                if (item.name) popupContent += `<br><b>Name:</b> ${item.name}`;
+                                if (item.description) popupContent += `<br><b>Description:</b> ${item.description}`;
+                                if (item.address) popupContent += `<br><b>Address:</b> ${item.address}`;
+                                // Assume 'location_link' exists and add it to the popup
+                                if (item.location_link) popupContent += `<br><a href="${item.location_link}" target="_blank">More Info</a>`;
+
+                                // Add marker with the popup
+                                L.marker([item.latitude, item.longitude])
+                                    .addTo(map)
+                                    .bindPopup(popupContent);
+                            }
+                        });
+
+
+                        // Adjust map view to show all markers
+                        const group = new L.featureGroup(data.map(item => {
+                            return L.marker([item.latitude, item.longitude])
+                        }));
+                        if (group.getLayers().length !== 0) {
+                            map.fitBounds(group.getBounds());
+                        }
                     } else {
                         display.innerHTML = '<p>No data found.</p>';
                     }
