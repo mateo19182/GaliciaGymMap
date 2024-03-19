@@ -1,36 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSV Data Viewer</title>
+    <meta charset="UTF-8">
+    <title>CSV Filter</title>
 </head>
 <body>
-    <label for="categoryFilter">Filter by category:</label>
-    <select id="categoryFilter" onchange="filterData()">
+    <label for="categoryFilter">Category:</label>
+    <select id="categoryFilter" onchange="filterData('category')">
         <option value="">Select a category</option>
         {% for category in categories %}
-        <option value="{{ category }}">{{ category }}</option>
+            <option value="{{ category }}">{{ category }}</option>
         {% endfor %}
+    </select>
+
+    <label for="typeFilter">Type:</label>
+    <select id="typeFilter" onchange="filterData('type')">
+        <option value="">Select a type</option>
+        <!-- Types will be populated based on category selection -->
     </select>
 
     <div id="dataDisplay"></div>
 
     <script>
-        function filterData() {
+        // Function to filter data by category or type
+        function filterData(filterType) {
             const category = document.getElementById('categoryFilter').value;
-            fetch(`/data?category=${category}`)
+            const type = filterType === 'type' ? document.getElementById('typeFilter').value : '';
+
+            // Clear type selection when category changes
+            if (filterType === 'category') {
+                document.getElementById('typeFilter').innerHTML = '<option value="">Select a type</option>';
+            }
+
+            fetch(`/data?category=${category}&type=${type}`)
                 .then(response => response.json())
                 .then(data => {
-                    const display = document.getElementById('dataDisplay');
-                    if (data && data.length > 0) {
-                        // Ensure data is displayed as a list
-                        display.innerHTML = '<ul>' + data.map(item => `<li>${item.location_link} - ${item.category}</li>`).join('') + '</ul>';
-                    } else {
-                        // Handle case where no data is returned for the selected category
-                        display.innerHTML = '<p>No data found for this category.</p>';
+                    // Populate types if category filter is changed and data is returned
+                    if (filterType === 'category' && data.length > 0) {
+                        const types = [...new Set(data.map(item => item.type))]; // Extract unique types
+                        const typeSelect = document.getElementById('typeFilter');
+                        types.forEach(type => {
+                            if (type) { // Avoid adding empty types
+                                const option = document.createElement('option');
+                                option.value = option.text = type;
+                                typeSelect.add(option);
+                            }
+                        });
                     }
-                }).catch(error => {
+
+                    // Display filtered data
+                    const display = document.getElementById('dataDisplay');
+                    if (data.length > 0) {
+                        display.innerHTML = '<ul>' + data.map(item => `<li><a href="${item.location_link}" target="_blank">${item.location_link}</a> - ${item.category} - ${item.type}</li>`).join('') + '</ul>';
+                    } else {
+                        display.innerHTML = '<p>No data found.</p>';
+                    }
+                })
+                .catch(error => {
                     console.error('Error fetching data:', error);
                     document.getElementById('dataDisplay').innerHTML = '<p>Error fetching data. Please try again later.</p>';
                 });
