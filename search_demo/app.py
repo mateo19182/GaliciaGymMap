@@ -1,31 +1,33 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request, render_template_string
 import pandas as pd
 
 app = Flask(__name__)
 
-# Load your CSV data into a DataFrame
-df = pd.read_csv('/home/mateo/GaliciaGymMap/modified_file.csv')
-# data = [
-#     {"id": 0, "name": "Área recreativa Ponte das Taboas", "type": "Public swimming pool", "subtype": "attractions"},
-#     {"id": 1, "name": "Praia fluvial de Ponte Caldelas", "type": "Hiking area", "subtype": "Tourist attraction"}
-# ]
-df['type'] = df['type'].fillna('')
-df['subtypes'] = df['subtypes'].fillna('')
-@app.route('/search', methods=['GET'])
-def search():
-    type_filter = request.args.get('type')
-    subtype_filter = request.args.get('subtype')
+# Assuming the CSV is named 'data.csv' and has columns 'id', 'name', 'category', etc.
+csv_file_path = '/home/mateo/GaliciaGymMap/modified_file.csv'
+df = pd.read_csv(csv_file_path)
+df.fillna("None", inplace=True)
+
+# df['category'] = df['category'].fillna('')
+# df['type'] = df['type'].fillna('')
+# df['subtypes'] = df['subtypes'].fillna('')
+@app.route('/')
+def home():
+    categories = df['category'].unique().tolist()
+    return render_template_string(open('index.html').read(), categories=categories)
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    category = request.args.get('category')
+    if category:
+        filtered_data = df[df['category'] == category].copy()
+    else:
+        filtered_data = df.copy()
     
-    # Filter the DataFrame based on query parameters
-    filtered_df = df
-    if type_filter:
-        filtered_df = filtered_df[filtered_df['type'].str.contains(type_filter, case=False)]
-    if subtype_filter:
-        filtered_df = filtered_df[filtered_df['subtypes'].str.contains(subtype_filter, case=False)]
-    
-    # Convert the filtered DataFrame to JSON
-    result = filtered_df.to_json(orient="records")
-    return result
+    # Replace NaN values with None, which is converted to null in JSON
+    filtered_data = filtered_data.where(pd.notnull(filtered_data), None)
+
+    return jsonify(filtered_data.to_dict(orient='records'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>CSV Search Demo</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV Data Viewer</title>
 </head>
 <body>
-<div class="container">
-    <h2>Search</h2>
-    <form id="searchForm">
-        <div class="form-group">
-            <label for="type">Type</label>
-            <input type="text" class="form-control" id="type" placeholder="Enter type">
-        </div>
-        <div class="form-group">
-            <label for="subtype">Subtype</label>
-            <input type="text" class="form-control" id="subtype" placeholder="Enter subtype">
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-    <div id="results"></div>
-</div>
+    <label for="categoryFilter">Filter by category:</label>
+    <select id="categoryFilter" onchange="filterData()">
+        <option value="">Select a category</option>
+        {% for category in categories %}
+        <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
 
-<script>
-$(document).ready(function(){
-    $("#searchForm").submit(function(e){
-        e.preventDefault();
-        $.get("/search", {
-            type: $("#type").val(),
-            subtype: $("#subtype").val()
-        }, function(data){
-            var results = JSON.parse(data);
-            var html = "<ul class='list-group'>";
-            results.forEach(function(item) {
-                html += "<li class='list-group-item'>" + item.name + "</li>";
-            });
-            html += "</ul>";
-            $("#results").html(html);
-        });
-    });
-});
-</script>
+    <div id="dataDisplay"></div>
+
+    <script>
+        function filterData() {
+            const category = document.getElementById('categoryFilter').value;
+            fetch(`/data?category=${category}`)
+                .then(response => response.json())
+                .then(data => {
+                    const display = document.getElementById('dataDisplay');
+                    if (data && data.length > 0) {
+                        // Ensure data is displayed as a list
+                        display.innerHTML = '<ul>' + data.map(item => `<li>${item.location_link} - ${item.category}</li>`).join('') + '</ul>';
+                    } else {
+                        // Handle case where no data is returned for the selected category
+                        display.innerHTML = '<p>No data found for this category.</p>';
+                    }
+                }).catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('dataDisplay').innerHTML = '<p>Error fetching data. Please try again later.</p>';
+                });
+        }
+    </script>
 </body>
 </html>
