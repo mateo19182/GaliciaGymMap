@@ -7,70 +7,155 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         /* Set the height of the map */
-        #map { height: 800px; }
+        #map { height: 500px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: #66afe9;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+        input[type="text"] {
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Improve the look of the dropdown arrow for select elements */
+        select {
+            -webkit-appearance: none; /* Remove default style in Safari, Chrome */
+            -moz-appearance: none; /* Remove default style in Firefox */
+            appearance: none; /* Remove default style in modern browsers */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 4 5"><path fill="rgb(0,0,0)" d="M2 0L0 2h4L2 0zM2 5L0 3h4L2 5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        /* Style options */
+        option {
+            padding: 5px 10px;
+        }
+
+                /* Flex container for inline dropdowns */
+        .dropdown-container {
+            display: flex;
+            justify-content: space-between; /* Adjusts space between dropdowns */
+            flex-wrap: wrap; /* Allows items to wrap in smaller screens */
+            gap: 10px; /* Adds space between dropdowns */
+        }
+
+        .dropdown {
+            flex-grow: 1; /* Allows dropdowns to grow and fill the space */
+        }
+
+        /* Adjust select width for consistency */
+        select {
+            width: 100%; /* Adjust if needed to better fit your layout */
+        }
     </style>
 </head>
 <body>
-    <label for="sectorFilter">Sector:</label>
-    <select id="sectorFilter" onchange="filterData()">
-        <option value="">Select a sector</option>
-        {% for sector in sectors %}
-            <option value="{{ sector }}">{{ sector }}</option>
-        {% endfor %}
-    </select>
-
-    <label for="tipoInstalacionFilter">Tipo Instalación:</label>
-    <select id="tipoInstalacionFilter" onchange="filterData()">
-        <option value="">Select a tipo instalación</option>
-        {% for tipo in tipo_instalacion %}
-            <option value="{{ tipo }}">{{ tipo }}</option>
-        {% endfor %}
-    </select>
-
-    <label for="subtipoInstalacionFilter">Subtipo Instalación:</label>
-    <select id="subtipoInstalacionFilter" onchange="filterData()">
-        <option value="">Select a subtipo instalación</option>
-        {% for subtipo in subtipo_instalacion %}
-            <option value="{{ subtipo }}">{{ subtipo }}</option>
-        {% endfor %}
-    </select>
-
-    <label for="areaActividadFilter">Área Actividad:</label>
-    <select id="areaActividadFilter" onchange="filterData()">
-        <option value="">Select an área actividad</option>
-        {% for area in area_actividad %}
-            <option value="{{ area }}">{{ area }}</option>
-        {% endfor %}
-    </select>
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <label for="sectorFilter">Sector:</label>
+            <select id="sectorFilter" onchange="filterData()">
+                <option value="">Select a sector</option>
+                {% for sector in sectors %}
+                    <option value="{{ sector }}">{{ sector }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="dropdown">
+            <label for="tipoInstalacionFilter">Tipo Instalación:</label>
+            <select id="tipoInstalacionFilter" onchange="filterData()">
+                <option value="">Select a tipo instalación</option>
+                {% for tipo in tipo_instalacion %}
+                    <option value="{{ tipo }}">{{ tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="dropdown">
+            <label for="subtipoInstalacionFilter">Subtipo Instalación:</label>
+            <select id="subtipoInstalacionFilter" onchange="filterData()">
+                <option value="">Select a subtipo instalación</option>
+                {% for subtipo in subtipo_instalacion %}
+                    <option value="{{ subtipo }}">{{ subtipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="dropdown">
+            <label for="areaActividadFilter">Área Actividad:</label>
+            <select id="areaActividadFilter" onchange="filterData()">
+                <option value="">Select an área actividad</option>
+                {% for area in area_actividad %}
+                    <option value="{{ area }}">{{ area }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 
     <label for="nombreSearch">Nombre:</label>
     <input type="text" id="nombreSearch" onkeyup="filterData()">
 
-    <div></div>
+    <div class="dropdown-container">
+        <div class="dropdown">
+            <label for="provinciaFilter">Provincia:</label>
+            <select id="provinciaFilter" onchange="filterData()">
+                <option value="">Select provincia</option>
+                {% for provincia in provincias %}
+                    <option value="{{ provincia }}">{{ provincia }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="dropdown">
+            <label for="comarcaFilter">Comarca:</label>
+            <select id="comarcaFilter" onchange="filterData()">
+                <option value="">Select comarca</option>
+                {% for comarca in comarcas %}
+                    <option value="{{ comarca }}">{{ comarca }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="dropdown">
+            <label for="municipioFilter">Municipio:</label>
+            <select id="municipioFilter" onchange="filterData()">
+                <option value="">Select municipio</option>
+                {% for municipio in municipios %}
+                    <option value="{{ municipio }}">{{ municipio }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 
-    <label for="provinciaFilter">Provincia:</label>
-    <select id="provinciaFilter" onchange="filterData()">
-        <option value="">Select provincia</option>
-        {% for provincia in provincias %}
-            <option value="{{ provincia }}">{{ provincia }}</option>
-        {% endfor %}
-    </select>
 
-    <label for="comarcaFilter">Comarca:</label>
-    <select id="comarcaFilter" onchange="filterData()">
-        <option value="">Select comarca</option>
-        {% for comarca in comarcas %}
-            <option value="{{ comarca }}">{{ comarca }}</option>
-        {% endfor %}
-    </select>
-
-    <label for="municipioFilter">Municipio:</label>
-    <select id="municipioFilter" onchange="filterData()">
-        <option value="">Select municipio</option>
-        {% for municipio in municipios %}
-            <option value="{{ municipio }}">{{ municipio }}</option>
-        {% endfor %}
-    </select>
 
 
     <!-- Map container -->
@@ -110,7 +195,7 @@
                     });
 
                     data.forEach(item => {
-                            if(item.latitud && item.longitud) {
+                            if(item.latitude && item.longitude) {
                                 // Create a popup content string with all item information
                                 let popupContent = `<b>Nombre:</b> ${item.nombre}<br><b>ID:</b> ${item.id}`;
                                 // Add additional item information here
@@ -119,13 +204,13 @@
                                 if (item.direccion) popupContent += `<br><b>direccion:</b> ${item.direccion}`;
                                 if (item.maps_link) popupContent += `<br><a href="${item.maps_link}" target="_blank">More Info</a>`;
 
-                                L.marker([item.latitud, item.longitud])
+                                L.marker([item.latitude, item.longitude])
                                     .addTo(map)
                                     .bindPopup(popupContent);
                             }
                         });
                     const group = new L.featureGroup(data.map(item => {
-                        return L.marker([item.latitud, item.longitud])
+                        return L.marker([item.latitude, item.longitude])
                     }));
                     if (group.getLayers().length > 0) {
                         map.fitBounds(group.getBounds());

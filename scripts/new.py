@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-original_df = pd.read_csv('/home/mateo/GaliciaGymMap/search_demo/static/updated_file.csv')
+original_df = pd.read_csv('/home/mateo/GaliciaGymMap/search_demo/static/output.csv')
 
 #original_df = original_df[~original_df['WKT']]
 
@@ -41,7 +41,6 @@ original_df = pd.read_csv('/home/mateo/GaliciaGymMap/search_demo/static/updated_
 
 #get loc
 
-original_df = original_df[(original_df['provincia'] == 'Galicia') | pd.isna(original_df['provincia'])]
-
+original_df = original_df[original_df['tipo_instalacion'] != 'Cemetery']
 
 original_df.to_csv('transformed.csv', index=False)
