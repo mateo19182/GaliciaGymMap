@@ -11,18 +11,36 @@
     </style>
 </head>
 <body>
-    <label for="categoryFilter">Category:</label>
-    <select id="categoryFilter" onchange="filterData('category')">
-        <option value="">Select a category</option>
-        {% for category in categories %}
-            <option value="{{ category }}">{{ category }}</option>
+    <label for="sectorFilter">Sector:</label>
+    <select id="sectorFilter" onchange="filterData()">
+        <option value="">Select a sector</option>
+        {% for sector in sectors %}
+            <option value="{{ sector }}">{{ sector }}</option>
         {% endfor %}
     </select>
 
-    <label for="typeFilter">Type:</label>
-    <select id="typeFilter" onchange="filterData('type')">
-        <option value="">Select a type</option>
-        <!-- Types will be populated based on category selection -->
+    <label for="tipoInstalacionFilter">Tipo Instalación:</label>
+    <select id="tipoInstalacionFilter" onchange="filterData()">
+        <option value="">Select a tipo instalación</option>
+        {% for tipo in tipo_instalacion %}
+            <option value="{{ tipo }}">{{ tipo }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="subtipoInstalacionFilter">Subtipo Instalación:</label>
+    <select id="subtipoInstalacionFilter" onchange="filterData()">
+        <option value="">Select a subtipo instalación</option>
+        {% for subtipo in subtipo_instalacion %}
+            <option value="{{ subtipo }}">{{ subtipo }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="areaActividadFilter">Área Actividad:</label>
+    <select id="areaActividadFilter" onchange="filterData()">
+        <option value="">Select an área actividad</option>
+        {% for area in area_actividad %}
+            <option value="{{ area }}">{{ area }}</option>
+        {% endfor %}
     </select>
 
     <!-- Map container -->
@@ -33,81 +51,50 @@
     <!-- Load Leaflet.js JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([42.5751, -7.8379], 7); // Adjust zoom level as needed
+        var map = L.map('map').setView([42.5751, -7.8379], 7);
 
-        // Load and display a tile layer on the map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Function to filter data by category or type
-        function filterData(filterType) {
-            const category = document.getElementById('categoryFilter').value;
-            const type = filterType === 'type' ? document.getElementById('typeFilter').value : '';
+        function filterData() {
+            const sector = document.getElementById('sectorFilter').value;
+            const tipoInstalacion = document.getElementById('tipoInstalacionFilter').value;
+            const subtipoInstalacion = document.getElementById('subtipoInstalacionFilter').value;
+            const areaActividad = document.getElementById('areaActividadFilter').value;
 
-            // Clear type selection when category changes
-            if (filterType === 'category') {
-                document.getElementById('typeFilter').innerHTML = '<option value="">Select a type</option>';
-            }
-
-            fetch(`/data?category=${category}&type=${type}`)
+            fetch(`/data?sector=${sector}&tipo_instalacion=${tipoInstalacion}&subtipo_instalacion=${subtipoInstalacion}&area_actividad=${areaActividad}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Populate types if category filter is changed and data is returned
-                    if (filterType === 'category' && data.length > 0) {
-                        const types = [...new Set(data.map(item => item.type))];
-                        const typeSelect = document.getElementById('typeFilter');
-                        types.forEach(type => {
-                            if (type) {
-                                const option = document.createElement('option');
-                                option.value = option.text = type;
-                                typeSelect.add(option);
-                            }
-                        });
-                    }
-
-                    // Display filtered data and update map markers
                     const display = document.getElementById('dataDisplay');
-                    if (data.length > 0) {
-                        display.innerHTML = '<ul>' + data.map(item => `<li><a href="${item.location_link}" target="_blank">${item.location_link}</a> - ${item.category} - ${item.type}</li>`).join('') + '</ul>';
+                    display.innerHTML = data.length > 0 ? '<ul>' + data.map(item => `<li>${item.nombre} - ${item.sector} - ${item.tipo_instalacion} - ${item.subtipo_instalacion} - ${item.area_actividad}</li>`).join('') + '</ul>' : '<p>No data found.</p>';
+                    
+                    map.eachLayer(function(layer){
+                        if (!!layer.toGeoJSON) {
+                            map.removeLayer(layer);
+                        }
+                    });
 
-                        // Clear existing markers
-                        map.eachLayer(function(layer){
-                            if (!!layer.toGeoJSON) {
-                                map.removeLayer(layer);
-                            }
-                        });
-
-                        data.forEach(item => {
-                            if(item.latitude && item.longitude) {
+                    data.forEach(item => {
+                            if(item.latitud && item.longitud) {
                                 // Create a popup content string with all item information
-                                let popupContent = `<b>Category:</b> ${item.category}<br><b>Type:</b> ${item.type}`;
+                                let popupContent = `<b>Nombre:</b> ${item.nombre}<br><b>ID:</b> ${item.id}`;
                                 // Add additional item information here
                                 // For example, assuming 'name', 'description', and 'address' fields exist
-                                if (item.name) popupContent += `<br><b>Name:</b> ${item.name}`;
-                                if (item.description) popupContent += `<br><b>Description:</b> ${item.description}`;
-                                if (item.address) popupContent += `<br><b>Address:</b> ${item.address}`;
-                                // Assume 'location_link' exists and add it to the popup
-                                if (item.location_link) popupContent += `<br><a href="${item.location_link}" target="_blank">More Info</a>`;
+                                if (item.descripcion) popupContent += `<br><b>Descripcion:</b> ${item.descripcion}`;
+                                if (item.direccion) popupContent += `<br><b>direccion:</b> ${item.direccion}`;
+                                if (item.maps_link) popupContent += `<br><a href="${item.maps_link}" target="_blank">More Info</a>`;
 
-                                // Add marker with the popup
-                                L.marker([item.latitude, item.longitude])
+                                L.marker([item.latitud, item.longitud])
                                     .addTo(map)
                                     .bindPopup(popupContent);
                             }
                         });
-
-
-                        // Adjust map view to show all markers
-                        const group = new L.featureGroup(data.map(item => {
-                            return L.marker([item.latitude, item.longitude])
-                        }));
-                        if (group.getLayers().length !== 0) {
-                            map.fitBounds(group.getBounds());
-                        }
-                    } else {
-                        display.innerHTML = '<p>No data found.</p>';
+                    const group = new L.featureGroup(data.map(item => {
+                        return L.marker([item.latitud, item.longitud])
+                    }));
+                    if (group.getLayers().length > 0) {
+                        map.fitBounds(group.getBounds());
                     }
                 })
                 .catch(error => {

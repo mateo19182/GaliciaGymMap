@@ -3,36 +3,41 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Assuming the CSV is named 'data.csv' and has columns 'id', 'name', 'category', etc.
-csv_file_path = '/home/mateo/GaliciaGymMap/example_data.csv'
+# Assuming your CSV has the required columns 'sector', 'tipo_instalacion', 'subtipo_instalacion', 'area_actividad', etc.
+csv_file_path = '/home/mateo/GaliciaGymMap/sports_complexes_galicia.csv'
 df = pd.read_csv(csv_file_path)
 df.fillna("None", inplace=True)
 
-# df['category'] = df['category'].fillna('')
-# df['type'] = df['type'].fillna('')
-# df['subtypes'] = df['subtypes'].fillna('')
-
-# Home route to serve the HTML page
 @app.route('/')
 def home():
-    # Extract unique categories for the category dropdown
-    categories = df['category'].unique().tolist()
-    return render_template_string(open('index.html').read(), categories=categories)
+    # Extract unique values for the new sorting/filtering criteria
+    sectors = df['sector'].unique().tolist()
+    tipo_instalacion = df['tipo_instalacion'].unique().tolist()
+    subtipo_instalacion = df['subtipo_instalacion'].unique().tolist()
+    area_actividad = df['area_actividad'].unique().tolist()
+    # Pass these lists to your template for rendering the filters/dropdowns
+    return render_template_string(open('index.html').read(), sectors=sectors, tipo_instalacion=tipo_instalacion, subtipo_instalacion=subtipo_instalacion, area_actividad=area_actividad)
 
-# Data route to handle filtering and return JSON data
 @app.route('/data', methods=['GET'])
 def get_data():
-    category = request.args.get('category')
-    type_filter = request.args.get('type')
+    # Retrieve filter parameters from the query string
+    sector = request.args.get('sector')
+    tipo_instalacion = request.args.get('tipo_instalacion')
+    subtipo_instalacion = request.args.get('subtipo_instalacion')
+    area_actividad = request.args.get('area_actividad')
 
-    # Start with all data, then filter by category
-    filtered_data = df[df['category'] == category] if category else df
+    # Start with all data, then filter based on the provided parameters
+    filtered_data = df
+    if sector:
+        filtered_data = filtered_data[filtered_data['sector'] == sector]
+    if tipo_instalacion:
+        filtered_data = filtered_data[filtered_data['tipo_instalacion'] == tipo_instalacion]
+    if subtipo_instalacion:
+        filtered_data = filtered_data[filtered_data['subtipo_instalacion'] == subtipo_instalacion]
+    if area_actividad:
+        filtered_data = filtered_data[filtered_data['area_actividad'] == area_actividad]
 
-    # If a type is specified, further filter by type within the selected category
-    if type_filter:
-        filtered_data = filtered_data[filtered_data['type'] == type_filter]
-
-    # Replace NaN values to ensure proper JSON serialization
+    # Ensure proper JSON serialization
     filtered_data = filtered_data.where(pd.notnull(filtered_data), None)
     return jsonify(filtered_data.to_dict(orient='records'))
 
