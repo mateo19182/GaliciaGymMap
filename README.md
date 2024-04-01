@@ -47,3 +47,7 @@ Singulares
 - Terrestres
 - Acuáticas
 - Aéreas
+
+
+
+source ./venv/bin/activate

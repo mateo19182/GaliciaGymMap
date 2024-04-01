@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV Filter</title>
+    <!-- Load Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Set the height of the map */
+        #map { height: 800px; }
+    </style>
+</head>
+<body>
+    <label for="sectorFilter">Sector:</label>
+    <select id="sectorFilter" onchange="filterData()">
+        <option value="">Select a sector</option>
+        {% for sector in sectors %}
+            <option value="{{ sector }}">{{ sector }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="tipoInstalacionFilter">Tipo Instalación:</label>
+    <select id="tipoInstalacionFilter" onchange="filterData()">
+        <option value="">Select a tipo instalación</option>
+        {% for tipo in tipo_instalacion %}
+            <option value="{{ tipo }}">{{ tipo }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="subtipoInstalacionFilter">Subtipo Instalación:</label>
+    <select id="subtipoInstalacionFilter" onchange="filterData()">
+        <option value="">Select a subtipo instalación</option>
+        {% for subtipo in subtipo_instalacion %}
+            <option value="{{ subtipo }}">{{ subtipo }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="areaActividadFilter">Área Actividad:</label>
+    <select id="areaActividadFilter" onchange="filterData()">
+        <option value="">Select an área actividad</option>
+        {% for area in area_actividad %}
+            <option value="{{ area }}">{{ area }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="nombreSearch">Nombre:</label>
+    <input type="text" id="nombreSearch" onkeyup="filterData()">
+
+    <div></div>
+
+    <label for="provinciaFilter">Provincia:</label>
+    <select id="provinciaFilter" onchange="filterData()">
+        <option value="">Select provincia</option>
+        {% for provincia in provincias %}
+            <option value="{{ provincia }}">{{ provincia }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="comarcaFilter">Comarca:</label>
+    <select id="comarcaFilter" onchange="filterData()">
+        <option value="">Select comarca</option>
+        {% for comarca in comarcas %}
+            <option value="{{ comarca }}">{{ comarca }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="municipioFilter">Municipio:</label>
+    <select id="municipioFilter" onchange="filterData()">
+        <option value="">Select municipio</option>
+        {% for municipio in municipios %}
+            <option value="{{ municipio }}">{{ municipio }}</option>
+        {% endfor %}
+    </select>
+
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <div id="dataDisplay"></div>
+
+    <!-- Load Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([42.5751, -7.8379], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function filterData() {
+            const sector = document.getElementById('sectorFilter').value;
+            const tipoInstalacion = document.getElementById('tipoInstalacionFilter').value;
+            const subtipoInstalacion = document.getElementById('subtipoInstalacionFilter').value;
+            const areaActividad = document.getElementById('areaActividadFilter').value;
+            const provincia = document.getElementById('provinciaFilter').value;
+            const municipio = document.getElementById('municipioFilter').value;
+            const comarca = document.getElementById('comarcaFilter').value;
+            const nombre = document.getElementById('nombreSearch').value;
+            
+            fetch(`/data?sector=${sector}&tipo_instalacion=${tipoInstalacion}&subtipo_instalacion=${subtipoInstalacion}&area_actividad=${areaActividad}&nombre=${nombre}&provincia=${provincia}&municipio=${municipio}&comarca=${comarca}`)
+                .then(response => response.json())
+                .then(data => {
+                    const display = document.getElementById('dataDisplay');
+                    display.innerHTML = data.length > 0 ? '<ul>' + data.map(item => `<li>${item.nombre} - ${item.sector} - ${item.tipo_instalacion} - ${item.subtipo_instalacion} - ${item.area_actividad}</li>`).join('') + '</ul>' : '<p>No data found.</p>';
+                    
+                    map.eachLayer(function(layer){
+                        if (!!layer.toGeoJSON) {
+                            map.removeLayer(layer);
+                        }
+                    });
+
+                    data.forEach(item => {
+                            if(item.latitud && item.longitud) {
+                                // Create a popup content string with all item information
+                                let popupContent = `<b>Nombre:</b> ${item.nombre}<br><b>ID:</b> ${item.id}`;
+                                // Add additional item information here
+                                // For example, assuming 'name', 'description', and 'address' fields exist
+                                if (item.descripcion) popupContent += `<br><b>Descripcion:</b> ${item.descripcion}`;
+                                if (item.direccion) popupContent += `<br><b>direccion:</b> ${item.direccion}`;
+                                if (item.maps_link) popupContent += `<br><a href="${item.maps_link}" target="_blank">More Info</a>`;
+
+                                L.marker([item.latitud, item.longitud])
+                                    .addTo(map)
+                                    .bindPopup(popupContent);
+                            }
+                        });
+                    const group = new L.featureGroup(data.map(item => {
+                        return L.marker([item.latitud, item.longitud])
+                    }));
+                    if (group.getLayers().length > 0) {
+                        map.fitBounds(group.getBounds());
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('dataDisplay').innerHTML = '<p>Error fetching data. Please try again later.</p>';
+                });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            filterData();
+        });
+    </script>
+</body>
+</html>
