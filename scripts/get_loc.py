@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from tqdm import tqdm
+import csv  # Import the csv module
 
 # Define the function to get province and municipio using latitude and longitude
 def get_location_details(lat, lon):
@@ -17,23 +18,39 @@ def get_location_details(lat, lon):
         return 'Exception', 'Exception'
 
 # Function to update the CSV file with tqdm progress bar
-def update_csv(file_path):
+def update_csv(file_path, new_file_path):
     # Load the CSV file into a DataFrame
     df = pd.read_csv(file_path)
-    
-    # Initialize a list to hold the updated data
-    updated_data = []
+
+    # Ensure 'provincia' and 'municipio' columns exist, or add them
+    if 'provincia' not in df.columns:
+        df['provincia'] = None
+    if 'municipio' not in df.columns:
+        df['municipio'] = None
+
+    # Prepare the header for the new file based on the original DataFrame's columns
+    headers = df.columns.tolist()
+
+    # Write headers to the new file
+    with open(new_file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(headers)
 
     # Wrap the iteration with tqdm for a progress bar
-    for _, row in tqdm(df.iterrows(), total=df.shape[0], desc="Updating"):
+    for index, row in tqdm(df.iterrows(), total=df.shape[0], desc="Updating"):
         provincia, municipio = get_location_details(row['latitude'], row['longitude'])
-        updated_data.append((provincia, municipio))
-    
-    # Update the DataFrame with the fetched data
-    df['provincia'], df['municipio'] = zip(*updated_data)
-    
-    # Write the updated DataFrame back to the CSV, overwriting the original
-    df.to_csv(file_path, index=False)
+        # Update the row in the DataFrame
+        df.at[index, 'provincia'] = provincia
+        df.at[index, 'municipio'] = municipio
 
-# Replace 'your_file.csv' with the path to your actual CSV file
-update_csv('/home/mateo/GaliciaGymMap/search_demo/static/output.csv')
+        # Append the updated row to the new CSV file
+        with open(new_file_path, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(df.loc[index].tolist())
+
+# Specify the original file path and the new file path
+original_file_path = '/home/mateo/GaliciaGymMap/search_demo/static/output.csv'
+new_file_path = '/home/mateo/GaliciaGymMap/search_demo/static/output2.csv'
+
+# Call the function with both file paths
+update_csv(original_file_path, new_file_path)
