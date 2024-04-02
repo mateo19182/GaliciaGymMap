@@ -4,7 +4,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Assuming your CSV has the required columns 'sector', 'tipo_instalacion', 'subtipo_instalacion', 'area_actividad', etc.
-csv_file_path = '/home/mateo/GaliciaGymMap/search_demo/static/output2.csv'
+csv_file_path = '/home/mateo/GaliciaGymMap/search_demo/static/output3.csv'
 df = pd.read_csv(csv_file_path)
 df.fillna("None", inplace=True)
 

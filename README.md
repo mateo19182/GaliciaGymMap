@@ -1,10 +1,13 @@
 # GaliciaGymMap
 Web embed using Leaflet.js for displaying info of sport center in Galicia
 
-Data type provisional:
-nombre,telefono,web_link,direccion,codigo_postal,latitude,longitude,descripcion,maps_link,place_id,sector,tipo_instalacion,subtipo_instalacion,provincia,municipio,otro1,otro2,id,comarca,area_actividad,otro3
+Header: id,nombre,municipio,comarca,provincia,direccion,codigo_postal,sector,tipo_instalacion,subtipo_instalacion,area_actividad,telefono,web_link,latitude,longitude,descripcion,maps_link,place_id,otro1,otro2,otro3
 
-multiples subcategorias en cada
+Quitar mierdas (supermercados, )
+
+multiples subcategorias, anidadas o cambiar a base de datos...
+
+dinmacally populate the filters...
 
 
 
