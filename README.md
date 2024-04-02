@@ -2,9 +2,11 @@
 Web embed using Leaflet.js for displaying info of sport center in Galicia
 
 Data type provisional:
-//id, nombre, coordenadas, autonomia, provincia, localidad, categoría1, categoría2, categoría3, categoría4, location_link, phone, site, descripcion, 
+nombre,telefono,web_link,direccion,codigo_postal,latitude,longitude,descripcion,maps_link,place_id,sector,tipo_instalacion,subtipo_instalacion,provincia,municipio,otro1,otro2,id,comarca,area_actividad,otro3
 
-id,name,site,subtypes,category,type,phone,full_address,borough,street,city,postal_code,state,latitude,longitude,rating,reviews_link,photo,working_hours,business_status,about,logo,description,verified,owner_id,owner_title,owner_link,reservation_links,booking_appointment_link,menu_link,order_links,location_link,place_id,google_id,cid,reviews_id,located_google_id
+multiples subcategorias en cada
+
+
 
 PROPUESTA DE CATEGORIZACIÓN:
 

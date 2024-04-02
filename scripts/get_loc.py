@@ -1,33 +1,39 @@
 import pandas as pd
-from geopy.geocoders import Nominatim
-from tqdm import tqdm  # for progress bar, optional
+import requests
+from tqdm import tqdm
 
-# Initialize geolocator
-geolocator = Nominatim(user_agent="your_application_name")
+# Define the function to get province and municipio using latitude and longitude
+def get_location_details(lat, lon):
+    url = f"https://www.cartociudad.es/geocoder/api/geocoder/reverseGeocode?lon={lon}&lat={lat}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get('province', 'Not Found'), data.get('muni', 'Not Found')
+        else:
+            return 'Error', 'Error'
+    except Exception as e:
+        print(f"Exception occurred: {e}")
+        return 'Exception', 'Exception'
 
-# Load your CSV data
-df = pd.read_csv("/home/mateo/GaliciaGymMap/search_demo/static/transformed.csv")  # make sure your CSV has 'latitude' and 'longitude' columns
+# Function to update the CSV file with tqdm progress bar
+def update_csv(file_path):
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv(file_path)
+    
+    # Initialize a list to hold the updated data
+    updated_data = []
 
-# Function to get province, comarca, and municipio
-def get_location_info(lat, lon):
-    location = geolocator.reverse((lat, lon), exactly_one=True, language="es")
-    if location:
-        address = location.raw.get('address', {})
-        provincia = address.get('state', '')
-        comarca = address.get('county', '')
-        municipio = address.get('municipality', '')
-        return provincia, comarca, municipio
-    else:
-        return "", "", ""
+    # Wrap the iteration with tqdm for a progress bar
+    for _, row in tqdm(df.iterrows(), total=df.shape[0], desc="Updating"):
+        provincia, municipio = get_location_details(row['latitude'], row['longitude'])
+        updated_data.append((provincia, municipio))
+    
+    # Update the DataFrame with the fetched data
+    df['provincia'], df['municipio'] = zip(*updated_data)
+    
+    # Write the updated DataFrame back to the CSV, overwriting the original
+    df.to_csv(file_path, index=False)
 
-
-province, comarca, municipio = get_location_info(df.iloc[0]['latitud'], df.iloc[0]['longitud'])
-print(f"Province: {province}, Comarca: {comarca}, Municipio: {municipio}")
-province, comarca, municipio = get_location_info(df.iloc[1]['latitud'], df.iloc[1]['longitud'])
-print(f"Province: {province}, Comarca: {comarca}, Municipio: {municipio}")
-# Apply the function to each row
-tqdm.pandas()  # optional, for progress bar
-df[['provincia', 'comarca', 'municipio']] = df.progress_apply(lambda row: get_location_info(row['latitud'], row['longitud']), axis=1, result_type="expand")
-
-# Save the updated dataframe to a new CSV
-df.to_csv("updated_file.csv", index=False)
+# Replace 'your_file.csv' with the path to your actual CSV file
+update_csv('/home/mateo/GaliciaGymMap/search_demo/static/output.csv')
