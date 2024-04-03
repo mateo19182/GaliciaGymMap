@@ -75,13 +75,28 @@
         select {
             width: 100%; /* Adjust if needed to better fit your layout */
         }
+        .clear-filters-btn {
+            padding: 10px 20px; /* Vertical padding of 10px and horizontal padding of 20px */
+            background-color: #007bff; /* A pleasant blue shade */
+            color: white; /* White text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Changes cursor to a pointer on hover */
+            font-size: 16px; /* Slightly larger font size */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+            margin: 20px 0; /* Adds 20px margin on the top and bottom */
+        }
+        
+        .clear-filters-btn:hover {
+            background-color: #0056b3; /* Darker shade of blue on hover */
+        }
     </style>
 </head>
 <body>
     <div class="dropdown-container">
         <div class="dropdown">
             <label for="sectorFilter">Sector:</label>
-            <select id="sectorFilter" onchange="filterData()">
+            <select id="sectorFilter" onchange="filterData('sectorFilter')">
                 <option value="">Select a sector</option>
                 {% for sector in sectors %}
                     <option value="{{ sector }}">{{ sector }}</option>
@@ -91,7 +106,7 @@
     
         <div class="dropdown">
             <label for="tipoInstalacionFilter">Tipo Instalación:</label>
-            <select id="tipoInstalacionFilter" onchange="filterData()">
+            <select id="tipoInstalacionFilter" onchange="filterData('tipoInstalacionFilter')">
                 <option value="">Select a tipo instalación</option>
                 {% for tipo in tipo_instalacion %}
                     <option value="{{ tipo }}">{{ tipo }}</option>
@@ -101,7 +116,7 @@
     
         <div class="dropdown">
             <label for="subtipoInstalacionFilter">Subtipo Instalación:</label>
-            <select id="subtipoInstalacionFilter" onchange="filterData()">
+            <select id="subtipoInstalacionFilter" onchange="filterData('subtipoInstalacionFilter')">
                 <option value="">Select a subtipo instalación</option>
                 {% for subtipo in subtipo_instalacion %}
                     <option value="{{ subtipo }}">{{ subtipo }}</option>
@@ -111,7 +126,7 @@
     
         <div class="dropdown">
             <label for="areaActividadFilter">Área Actividad:</label>
-            <select id="areaActividadFilter" onchange="filterData()">
+            <select id="areaActividadFilter" onchange="filterData('areaActividadFilter')">
                 <option value="">Select an área actividad</option>
                 {% for area in area_actividad %}
                     <option value="{{ area }}">{{ area }}</option>
@@ -120,13 +135,10 @@
         </div>
     </div>
 
-    <label for="nombreSearch">Nombre:</label>
-    <input type="text" id="nombreSearch" onkeyup="filterData()">
-
     <div class="dropdown-container">
         <div class="dropdown">
             <label for="provinciaFilter">Provincia:</label>
-            <select id="provinciaFilter" onchange="filterData()">
+            <select id="provinciaFilter" onchange="filterData('provinciaFilter')">
                 <option value="">Select provincia</option>
                 {% for provincia in provincias %}
                     <option value="{{ provincia }}">{{ provincia }}</option>
@@ -136,7 +148,7 @@
     
         <div class="dropdown">
             <label for="comarcaFilter">Comarca:</label>
-            <select id="comarcaFilter" onchange="filterData()">
+            <select id="comarcaFilter" onchange="filterData('comarcaFilter')">
                 <option value="">Select comarca</option>
                 {% for comarca in comarcas %}
                     <option value="{{ comarca }}">{{ comarca }}</option>
@@ -146,7 +158,7 @@
     
         <div class="dropdown">
             <label for="municipioFilter">Municipio:</label>
-            <select id="municipioFilter" onchange="filterData()">
+            <select id="municipioFilter" onchange="filterData('municipioFilter')">
                 <option value="">Select municipio</option>
                 {% for municipio in municipios %}
                     <option value="{{ municipio }}">{{ municipio }}</option>
@@ -155,6 +167,11 @@
         </div>
     </div>
 
+    <label for="nombreSearch">Nombre:</label>
+    <input type="text" id="nombreSearch" onkeyup="filterData()">
+
+
+    <button onclick="clearFilters()" class="clear-filters-btn">Clear All Filters</button>
 
 
 
@@ -172,7 +189,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        function filterData() {
+        function filterData(callerId) {
             const sector = document.getElementById('sectorFilter').value;
             const tipoInstalacion = document.getElementById('tipoInstalacionFilter').value;
             const subtipoInstalacion = document.getElementById('subtipoInstalacionFilter').value;
@@ -215,15 +232,67 @@
                     if (group.getLayers().length > 0) {
                         map.fitBounds(group.getBounds());
                     }
+                    updateDropdowns(data, callerId);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                     document.getElementById('dataDisplay').innerHTML = '<p>Error fetching data. Please try again later.</p>';
                 });
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            filterData();
-        });
+
+        function updateDropdowns(data, callerId) {
+            function updateDropdown(selector, attribute) {
+                console. log(callerId)
+                if (selector === callerId) return; // Skip updating the caller dropdown
+                
+                const dropdown = document.getElementById(selector);
+                const currentValue = dropdown.value; // Capture the current selection
+
+                dropdown.innerHTML = `<option value="">Select a ${attribute.replace(/_/g, ' ')}</option>`; // Replace underscores with spaces for the placeholder
+
+                const uniqueItems = [...new Set(data.map(item => item[attribute]))].sort(); // Extract, remove duplicates, and sort
+
+                uniqueItems.forEach(item => {
+                    if (item) { // Check if item is not empty or undefined
+                        const option = document.createElement('option');
+                        option.value = item;
+                        option.textContent = item;
+                        if (item === currentValue) { // Preserve the current selection
+                            option.selected = true;
+                        }
+                        dropdown.appendChild(option);
+                    }
+                });
+            }
+            updateDropdown('sectorFilter', 'sector');
+            updateDropdown('tipoInstalacionFilter', 'tipo_instalacion');
+            updateDropdown('subtipoInstalacionFilter', 'subtipo_instalacion');
+            updateDropdown('areaActividadFilter', 'area_actividad');
+            updateDropdown('provinciaFilter', 'provincia');
+            updateDropdown('municipioFilter', 'municipio');
+            updateDropdown('comarcaFilter', 'comarca');
+            // 'nombreSearch' is a text input for search, not a dropdown, so it's not updated here
+        }
+
+        function clearFilters() {
+            // Reset dropdowns to their first option (usually the placeholder)
+            document.getElementById('sectorFilter').selectedIndex = 0;
+            document.getElementById('tipoInstalacionFilter').selectedIndex = 0;
+            document.getElementById('subtipoInstalacionFilter').selectedIndex = 0;
+            document.getElementById('areaActividadFilter').selectedIndex = 0;
+            document.getElementById('provinciaFilter').selectedIndex = 0;
+            document.getElementById('municipioFilter').selectedIndex = 0;
+            document.getElementById('comarcaFilter').selectedIndex = 0;
+            
+            // Clear the text search input
+            document.getElementById('nombreSearch').value = "";
+            
+            filterData(); // This call may need to be adjusted based on your specific implementation
+        }
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     filterData();
+        // });
     </script>
 </body>
 </html>

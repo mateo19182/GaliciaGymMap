@@ -33,8 +33,7 @@ def get_data():
     comarca = request.args.get('comarca')
     municipio = request.args.get('municipio')
     nombre = request.args.get('nombre', default=None)
-
-
+    
     # Start with all data, then filter based on the provided parameters
     filtered_data = df
     if sector:
