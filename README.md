@@ -3,12 +3,11 @@ Web embed using Leaflet.js for displaying info of sport center in Galicia
 
 Header: id,nombre,municipio,comarca,provincia,direccion,codigo_postal,sector,tipo_instalacion,subtipo_instalacion,area_actividad,telefono,web_link,latitude,longitude,descripcion,maps_link,place_id,otro1,otro2,otro3
 
-Quitar mierdas (supermercados, )
+Quitar mierdas (supermercados, panaderías...)
 
 multiples subcategorias, anidadas o cambiar a base de datos...
 
-dinmacally populate the filters...
-
+implement base de datos, make production ready.
 
 
 PROPUESTA DE CATEGORIZACIÓN:
