@@ -16,14 +16,14 @@ PROPUESTA DE CATEGORIZACIÓN:
 - Autonómico
 - Provincial
 - Local
-Empresas:
+Empresas: (sector)
 - Gestión deportiva
 - Entidades deportivas
 - Innovación y tecnología
 - Fabricación de artículos y téxtil
 - Construcción de instalaciones
 
-Instalaciones:
+Instalaciones:  (tipo instalacion)
 - Convencionales
 - Espacios longitudinales.
 - Campos.
@@ -32,7 +32,7 @@ Instalaciones:
 - Salas
 - Vasos de piscina.
 
-Singulares
+Singulares  (subtipo instalacion)
 - Campos de golf.
 - Circuitos de motor.
 - Circuito de carrera a pie.
