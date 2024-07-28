@@ -3,6 +3,10 @@ Web embed using Leaflet.js for displaying info of sport center in Galicia
 
 Header: id,nombre,municipio,comarca,provincia,direccion,codigo_postal,sector,tipo_instalacion,subtipo_instalacion,area_actividad,telefono,web_link,latitude,longitude,descripcion,maps_link,place_id,otro1,otro2,otro3
 
+Quitar falsos positivos (supermercados, panaderías...)
+
+multiples subcategorias, anidadas o cambiar a base de datos...
+
 ![img](https://github.com/mateo19182/GaliciaGymMap/assets/33040884/2f1d5e05-816c-4bb0-8375-345ba5d299a5)
 
 PROPUESTA DE CATEGORIZACIÓN:
