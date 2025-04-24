@@ -1,9 +1,17 @@
 # GaliciaGymMap
-Web embed using Leaflet.js for displaying info of sport center in Galicia
+
+client_side es el ultimo
+
+## TODO
+
+- Quitar falsos positivos (supermercados, panaderías...), llm sorting...
+- tool para modificar manualmente
+- bloquear mapa a una zona
+- mas info en el tick
+- make embbedable
 
 Header: id,nombre,municipio,comarca,provincia,direccion,codigo_postal,sector,tipo_instalacion,subtipo_instalacion,area_actividad,telefono,web_link,latitude,longitude,descripcion,maps_link,place_id,otro1,otro2,otro3
 
-Quitar falsos positivos (supermercados, panaderías...)
 
 multiples subcategorias, anidadas o cambiar a base de datos...
 

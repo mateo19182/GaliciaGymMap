@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="gl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Ximnasios e Instalacións Deportivas en Galicia</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Load Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Load Leaflet.markercluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <!-- Include PapaParse library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <h1>Busca de Ximnasios e Instalacións Deportivas en Galicia</h1>
+
+    <div class="filter-sections">
+        <fieldset class="filter-group">
+            <legend>Filtros Xerais</legend>
+            <div class="filters general-filters">
+                <div>
+                    <label for="nombreFilter">Nome:</label>
+                    <input type="text" id="nombreFilter" placeholder="Buscar por nome...">
+                </div>
+                <div>
+                    <label for="sectorFilter">Sector:</label>
+                    <select id="sectorFilter">
+                        <option value="">Todos</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="tipoInstalacionFilter">Tipo de Instalación:</label>
+                    <select id="tipoInstalacionFilter">
+                        <option value="">Todos</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="subtipoInstalacionFilter">Subtipo:</label>
+                    <select id="subtipoInstalacionFilter">
+                        <option value="">Todos</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="areaActividadFilter">Área de Actividade:</label>
+                    <select id="areaActividadFilter">
+                        <option value="">Todas</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="filter-group">
+            <legend>Filtros Xeográficos</legend>
+            <div class="filters geo-filters">
+                <div>
+                    <label for="provinciaFilter">Provincia:</label>
+                    <select id="provinciaFilter">
+                        <option value="">Todas</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="comarcaFilter">Comarca:</label>
+                    <select id="comarcaFilter">
+                        <option value="">Todas</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div>
+                    <label for="municipioFilter">Concello:</label>
+                    <select id="municipioFilter">
+                        <option value="">Todos</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+
+    <div class="filter-controls">
+        <div id="resultsCount">Cargando datos...</div>
+
+        <div class="map-toggle">
+            <input type="checkbox" id="toggleMap" checked>
+            <label for="toggleMap">Amosar Mapa</label>
+        </div>
+        <button id="clearFiltersBtn" class="clear-filters-btn">Limpar Filtros</button>
+
+    </div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Concello</th>
+                <th>Provincia</th>
+                <th>Sector</th>
+                <th>Tipo de Instalación</th>
+                <th>Subtipo</th>
+                <th>Área de Actividade</th>
+                <th>Teléfono</th>
+                <th>Web</th>
+                <th>Ligazón Mapa</th>
+            </tr>
+        </thead>
+        <tbody id="resultsBody">
+            <!-- Results will be populated by JavaScript -->
+             <tr><td colspan="10">Cargando...</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Load Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Load Leaflet.markercluster JS -->
+    <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>

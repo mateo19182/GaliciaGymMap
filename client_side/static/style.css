@@ -1,0 +1,185 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Set the height of the map */
+#map {
+    height: 600px; /* You can adjust this value */
+    width: 100%;
+    margin-top: 5px; /* Add some space above the map */
+    margin-bottom: 5px; /* Add some space below the map */
+}
+
+/* Style for disabled filter options */
+select option:disabled, .disabled-option {
+    color: #ccc; /* Grey out text */
+    background-color: #f8f8f8; /* Slightly different background */
+}
+
+.filters {
+    /* Use CSS Grid for filter items */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Slightly smaller min */
+    gap: 8px; /* Reduced gap */
+    align-items: end; /* Align items to the bottom for better label alignment */
+    /* background-color: #fff; */ /* Let fieldset handle background */
+    /* padding: 15px; */ /* Let fieldset handle padding */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
+    /* margin-bottom: 20px; */ /* Let fieldset handle margin */
+}
+
+.filters div {
+    /* Each filter item (label + input/select) */
+    display: flex;
+    flex-direction: column; /* Stack label above input */
+}
+
+.filters label {
+    margin-bottom: 2px; /* Reduced space */
+    font-size: 0.85em; /* Smaller label */
+    font-weight: normal; /* Override default bold */
+    color: #555;
+}
+
+.filters select,
+.filters input[type="text"] {
+    width: 100%; /* Make inputs fill their grid cell */
+    padding: 4px; /* Reduced padding */
+    font-size: 0.85em; /* Smaller font in input */
+    margin-top: 0; /* Remove default margin */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't add to width */
+}
+
+/* Adjustments for filter groups */
+.filter-group {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 12px; /* Further reduced padding */
+    flex: 1; /* Allow groups to grow */
+    min-width: 0; /* Allow shrinking below 300px if needed */
+    background-color: #f9f9f9; /* Lighter background for fieldset */
+    /* Removed flex properties as filter-sections handles layout */
+}
+
+.filter-group legend {
+    font-size: 0.95em; /* Slightly smaller legend */
+    margin-bottom: 8px; /* Adjusted space below legend */
+    font-weight: bold;
+    padding: 0 8px; /* Reduced padding */
+    margin-left: 5px;
+    color: #333;
+}
+
+/* Container for results count, toggle, button */
+.filter-controls {
+    display: flex;
+    justify-content: space-between; /* Space out items */
+    align-items: center; /* Vertically align items */
+    padding: 10px 0; /* Add some vertical padding */
+    margin-top: 5px; /* Space above controls */
+    margin-bottom: 5px; /* Space below controls */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 15px; /* Space between items when wrapped */
+}
+
+#resultsCount {
+    font-size: 0.9em;
+    color: #666;
+    /* Remove margin if any */
+    margin: 0;
+}
+
+/* Style the map toggle container */
+.map-toggle {
+    display: flex; /* Align checkbox and label */
+    align-items: center;
+    gap: 5px; /* Space between checkbox and label */
+}
+
+.map-toggle label {
+    margin-bottom: 0; /* Override general label margin */
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.map-toggle input[type="checkbox"] {
+    margin: 0; /* Remove default margins */
+    cursor: pointer;
+    /* Optional: Slightly larger checkbox */
+    /* transform: scale(1.1); */
+}
+
+/* New styles for controls and sections */
+.filter-sections {
+    display: flex;
+    gap: 20px; /* Space between filter groups */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    margin-bottom: 5px;
+}
+
+.clear-filters-btn {
+    padding: 8px 15px;
+    background-color: #dc3545; /* Red color for clear */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+    background-color: #c82333;
+}
+
+/* Style to hide the map */
+#map.hidden {
+    display: none;
+}
+
+#resultsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#resultsTable th,
+#resultsTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+#resultsTable th {
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+
+#resultsTable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #e0e0e0;
+    z-index: 1;
+}
+
+#resultsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#resultsTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Add more specific styles as needed */
